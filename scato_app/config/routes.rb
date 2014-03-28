@@ -1,4 +1,18 @@
 ScatoApp::Application.routes.draw do
+
+  root 'investors#welcome'
+
+  resources :investors do 
+    resources :opportunities
+    resources :scans
+    resources :trades
+  end
+
+  resources :scans
+  resources :opportunities
+
+  #in controller for investoers
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
