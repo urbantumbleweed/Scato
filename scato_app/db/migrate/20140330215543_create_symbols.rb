@@ -1,6 +1,6 @@
-class CreateTableSymbols < ActiveRecord::Migration
+class CreateSymbols < ActiveRecord::Migration
   def change
-    create_table :table_symbols do |t|
+    create_table :symbols do |t|
     	t.string :symbol, :name, :exchange
     	t.date :date
     	t.float :ask, :bid, :volume, :previousClose, :open

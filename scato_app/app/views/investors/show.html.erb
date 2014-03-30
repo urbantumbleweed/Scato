@@ -83,9 +83,20 @@
 			</tr>
 		</thead>
 		<tbody>
+			<% @investor.opportunities.each do |opportunity| %>
 			<tr>
-				<td>data</td>
+				<td><%= opportunity.scan.symbol %></td>
+				<td><%= opportunity.scan.security_type %></td>
+				<td><%= opportunity. %></td>
+				<td><%= opportunity. %></td>
+				<td><%= opportunity. %></td>
+				<td><%= opportunity. %></td>
+				<td><%= opportunity. %></td>
+				<td><%= opportunity. %></td>
+				<td><%= opportunity. %></td>
+				<td><%= opportunity. %></td>
 			</tr>
+			<% end %>
 		</tbody>
 	</table>
 </div>

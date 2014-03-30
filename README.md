@@ -31,4 +31,4 @@ Additionally, the drilling into an oportunity will reveal a candlestick chart of
 
 View the [pivotal tracker project](https://www.pivotaltracker.com/s/projects/1047160) here.
 
-![Scato Trader](http://i.imgur.com/cXPutks.gif =700x)
+![Scato Trader](http://i.imgur.com/boJQsVU.gif =700x)

@@ -14,6 +14,7 @@ class InvestorsController < ApplicationController
 	def show
 		@investor = Investor.find(current_user.id)
 		@investor.open_trades.each {|trade| trade.current_price}
+		@opportunities@investor.opportunities
 		
 		#get current prices
 
