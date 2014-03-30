@@ -11,18 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140327223718) do
+ActiveRecord::Schema.define(version: 20140329225906) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "investors", force: true do |t|
-    t.string  "name"
-    t.string  "email"
-    t.string  "account_number"
-    t.string  "password_digest"
-    t.integer "balance"
-    t.integer "max_position_percent"
+    t.string "name"
+    t.string "email"
+    t.string "username"
+    t.string "password_digest"
+    t.float  "balance"
+    t.float  "max_position_percent"
+    t.float  "max_risk_percent_per_position"
   end
 
   create_table "investors_scans", id: false, force: true do |t|
@@ -32,8 +33,8 @@ ActiveRecord::Schema.define(version: 20140327223718) do
 
   create_table "opportunities", force: true do |t|
     t.integer "strength"
-    t.integer "risk"
-    t.integer "expected_reward"
+    t.float   "risk"
+    t.float   "expected_reward"
     t.integer "priority"
     t.integer "scan_id"
   end
@@ -53,12 +54,13 @@ ActiveRecord::Schema.define(version: 20140327223718) do
     t.date    "entry_date"
     t.date    "exit_date"
     t.boolean "trade_open"
-    t.integer "entry_price"
+    t.float   "entry_price"
     t.integer "entry_quantity"
-    t.integer "exit_price"
+    t.float   "exit_price"
     t.integer "exit_quantity"
     t.integer "investor_id"
     t.integer "opportunity_id"
+    t.float   "current_price"
   end
 
 end

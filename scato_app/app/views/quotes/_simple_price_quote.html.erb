@@ -1,0 +1,4 @@
+<%= form_tag(action:'/quotes/simple_price', method:"get") do %>
+	<%= label_tag 'search', 'Enter a Symbol' %>
+	<%= text_field_tag :search, "ex: AAPL" %>
+<% end %>

@@ -1,0 +1,103 @@
+<h1>Account Details for: <%= current_user.name %></h1>
+
+<!-- open trades -->
+<div>
+<h3>Open Trade Positions:</h3>
+<table>
+	<thead>
+		<tr>
+			<th colspan="4">Stock Information</th>
+			<th colspan="7">Account Information</th>
+		</tr>
+		<tr>
+			<th>Symbol</th>
+			<th>Current Price</th>
+			<th>Risk Price</th>
+			<th>Target Price</th>
+			<th>Qty</th>
+			<th>Entry Price</th>
+			<th>Risk</th>
+			<th>Profit/Loss</th>
+			<th>Expected Return</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @investor.open_trades.each do |trade| %>
+		<tr>
+			<td><%= trade.primary_symbol %></td>
+			<td>$<%= trade.current_price %></td>
+			<td>$<%= trade.entry_price - trade.opportunity.risk %></td>
+			<td>$<%= trade.target %></td>
+			<td><%= trade.entry_quantity %></td>
+			<td>$<%= trade.entry_price %></td>
+			<td>$<%= trade.risk %></td>
+			<td>$<%= trade.current_price - trade.entry_price %></td>
+			<td>$<%= trade.expected_return %></td>
+			<td>link_to("show", investor_trade_path)</td>
+			<td>link_to("exit trade", ???</td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>
+</div>
+<!-- End of open trades -->
+
+<!-- Link to to trade history -->
+<div>
+	link_to("Trade History", investor_trades_path)
+</div>
+
+<!-- Persosal information -->
+<div>
+	<h3>Personal Information:</h3>
+	<span>Name: <%= current_user.name %></span>
+	<br><span>Email: <%= current_user.email %></span>
+	<br><span>Balance: <%= current_user.balance %> ---link_to("add money", '/investors/:id/add_money')---link_to("withdraw money", '/investors/:id/request_money')</span>
+	<br><span>	Percent of Capital Allowed per Position: <%= current_user.max_position_percent %>%</span>
+	<br><span>Capital Allowed per Position: $<%= current_user.capital_allowed_per_position %></span>
+	<br><span>Percent of Capital Allowed as Risk: <%= current_user.max_risk_percent_per_position %>%</span>
+	<br><span>Risk Per Position Limit: <%= current_user.capital_allowed_per_position_as_risk %></span>
+	<br>-----link_to("edit", edit_investor_path)-----
+</div>
+
+<div>
+	<h3>Opportunities</h3>
+	<table>
+		<thead>
+			<tr>
+				<th>Stock</th>
+				<th>Opportunity</th>
+				<th>Account</th>
+			</tr>
+			<tr>
+				<th>Symbol</th>
+				<th>Type</th>
+				<th>Current</th>
+				<th>Entry Price</th>
+				<th>Risk</th>
+				<th>Target Price</th>
+				<th>Number of Shares</th>
+				<th>Risk Amount</th>
+				<th>Expected Return</th>
+				<th>Risk/Reward Ratio</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>data</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<p>Show page: this shows the investor account details, open trades, and opportunities that pertain to the investor.</p>
+<p>this page includes links to:</p>
+<ul>
+	<li>search a stock (quotes controller)</li>
+	<li>edit personal information (investor#edit)</li>
+	<li>close out of open trades (trade#close)</li>
+	<li>see previous trades (trade#history)</li>
+	<li>enter an opportunity (trade#enter) </li>
+	<li>see opoortunity details (trade#show) </li>
+	<li>clear opportunity</li>
+</ul>

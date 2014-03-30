@@ -7,6 +7,15 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+	<% if current_user %>
+	<div>
+		<h4>Hello, <%= current_user.name %>!</h4>
+		<%= link_to("Logout", logout_path) %>
+	<% else %>
+		<h4><%= link_to("Login", login_path) %> or <%= link_to("Sign up", new_investor_path) %></h4>
+	</div>
+	<% end %>
+	<img src="http://i.imgur.com/yOlB7Tw.png" alt="Scato_logo">
 
 <%= yield %>
 

@@ -1,6 +1,10 @@
 ScatoApp::Application.routes.draw do
 
-  root 'investors#welcome'
+  root to: 'investors#welcome'
+  get '/login', to: 'sessions#new'
+  post '/sessions', to: 'sessions#create'
+  get '/logout', to: 'sessions#destroy'
+
 
   resources :investors do 
     resources :opportunities
@@ -8,8 +12,8 @@ ScatoApp::Application.routes.draw do
     resources :trades
   end
 
-  resources :scans
-  resources :opportunities
+
+
 
   #in controller for investoers
 

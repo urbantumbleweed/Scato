@@ -1,0 +1,404 @@
+Last login: Thu Mar 27 12:39:25 on ttys004
+stephensaunders ~
+$ cd ~/Sites/Scato/scato_app/
+stephensaunders ~/Sites/Scato/scato_app on master[!?]
+$ rails c
+Loading development environment (Rails 4.0.4)
+ap gem not found.  Try typing 'gem install awesome_print' to get super-fancy output.
+[1] pry(main)> i1
+NameError: undefined local variable or method `i1' for main:Object
+from (pry):1:in `__pry__'
+[2] pry(main)> i1 = Investor.find(1)
+  Investor Load (62.8ms)  SELECT "investors".* FROM "investors" WHERE "investors"."id" = $1 LIMIT 1  [["id", 1]]
+=> #<Investor id: 1, name: "John Doe", email: "jd@ga.com", username: "jdman", password_digest: "$2a$10$A6lt2e2mEJGDgIeM87gDaufCtR5g.TiQodvy2qCkX5Za...", balance: 100000.0, max_position_percent: 10.0, max_risk_percent_per_position: 2.0>
+[3] pry(main)> i1
+=> #<Investor id: 1, name: "John Doe", email: "jd@ga.com", username: "jdman", password_digest: "$2a$10$A6lt2e2mEJGDgIeM87gDaufCtR5g.TiQodvy2qCkX5Za...", balance: 100000.0, max_position_percent: 10.0, max_risk_percent_per_position: 2.0>
+[4] pry(main)> i1.scans
+  Scan Load (1.0ms)  SELECT "scans".* FROM "scans" INNER JOIN "investors_scans" ON "scans"."id" = "investors_scans"."scan_id" WHERE "investors_scans"."investor_id" = $1  [["investor_id", 1]]
+=> []
+[5] pry(main)> Scan.all
+  Scan Load (0.7ms)  SELECT "scans".* FROM "scans"
+=> [#<Scan id: 1, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 17:04:44", updated_at: "2014-03-28 17:04:44">,
+ #<Scan id: 2, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 17:05:59", updated_at: "2014-03-28 17:05:59">,
+ #<Scan id: 3, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 17:13:16", updated_at: "2014-03-28 17:13:16">,
+ #<Scan id: 4, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 17:14:43", updated_at: "2014-03-28 17:14:43">,
+ #<Scan id: 5, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 17:16:32", updated_at: "2014-03-28 17:16:32">,
+ #<Scan id: 6, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 17:17:02", updated_at: "2014-03-28 17:17:02">,
+ #<Scan id: 7, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 17:19:02", updated_at: "2014-03-28 17:19:02">,
+ #<Scan id: 8, symbol: "AAPL", security_type: "stock", created_at: "2014-03-28 17:19:02", updated_at: "2014-03-28 17:19:02">,
+ #<Scan id: 9, symbol: "MSFT", security_type: "stock", created_at: "2014-03-28 17:19:02", updated_at: "2014-03-28 17:19:02">,
+ #<Scan id: 10, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 17:19:02", updated_at: "2014-03-28 17:19:02">,
+ #<Scan id: 11, symbol: "T", security_type: "stock", created_at: "2014-03-28 17:19:02", updated_at: "2014-03-28 17:19:02">,
+ #<Scan id: 12, symbol: "F", security_type: "stock", created_at: "2014-03-28 17:19:02", updated_at: "2014-03-28 17:19:02">]
+[6] pry(main)> s1 = Scan.find(1)
+  Scan Load (0.6ms)  SELECT "scans".* FROM "scans" WHERE "scans"."id" = $1 LIMIT 1  [["id", 1]]
+=> #<Scan id: 1, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 17:04:44", updated_at: "2014-03-28 17:04:44">
+[7] pry(main)> i1.scans << s1
+   (0.2ms)  BEGIN
+   (0.4ms)  INSERT INTO "investors_scans" ("investor_id", "scan_id") VALUES (1, 1)
+   (0.8ms)  COMMIT
+=> [#<Scan id: 1, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 17:04:44", updated_at: "2014-03-28 17:04:44">]
+[8] pry(main)> i1.scans
+=> [#<Scan id: 1, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 17:04:44", updated_at: "2014-03-28 17:04:44">]
+[9] pry(main)> i1.scans.opportunities
+NoMethodError: undefined method `opportunities' for #<ActiveRecord::Associations::CollectionProxy::ActiveRecord_Associations_CollectionProxy_Scan:0x007feef3f608d0>
+from /Users/stephensaunders/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/activerecord-4.0.4/lib/active_record/relation/delegation.rb:121:in `method_missing'
+[10] pry(main)> Scan.find(2)
+  Scan Load (0.5ms)  SELECT "scans".* FROM "scans" WHERE "scans"."id" = $1 LIMIT 1  [["id", 2]]
+=> #<Scan id: 2, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 17:05:59", updated_at: "2014-03-28 17:05:59">
+[11] pry(main)> s2 = _
+=> #<Scan id: 2, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 17:05:59", updated_at: "2014-03-28 17:05:59">
+[12] pry(main)> i1.scans << s2
+   (0.2ms)  BEGIN
+   (0.2ms)  INSERT INTO "investors_scans" ("investor_id", "scan_id") VALUES (1, 2)
+   (3.4ms)  COMMIT
+=> [#<Scan id: 1, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 17:04:44", updated_at: "2014-03-28 17:04:44">,
+ #<Scan id: 2, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 17:05:59", updated_at: "2014-03-28 17:05:59">]
+[13] pry(main)> Opportunities.all
+NameError: uninitialized constant Opportunities
+from (pry):13:in `__pry__'
+[14] pry(main)> Opportunity.all
+  Opportunity Load (0.8ms)  SELECT "opportunities".* FROM "opportunities"
+=> [#<Opportunity id: 1, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: nil>,
+ #<Opportunity id: 2, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: nil>,
+ #<Opportunity id: 3, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: nil>,
+ #<Opportunity id: 4, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: 4>,
+ #<Opportunity id: 5, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: 5>,
+ #<Opportunity id: 6, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: 6>,
+ #<Opportunity id: 7, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: 7>,
+ #<Opportunity id: 8, strength: 100, risk: 3.0, expected_reward: 12.0, priority: 2, scan_id: 8>,
+ #<Opportunity id: 9, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: 9>,
+ #<Opportunity id: 10, strength: 100, risk: 2.21, expected_reward: 6.63, priority: 1, scan_id: 10>,
+ #<Opportunity id: 11, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: 11>,
+ #<Opportunity id: 12, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: 12>]
+[15] pry(main)> i1.scans(1)
+  Scan Load (0.7ms)  SELECT "scans".* FROM "scans" INNER JOIN "investors_scans" ON "scans"."id" = "investors_scans"."scan_id" WHERE "investors_scans"."investor_id" = $1  [["investor_id", 1]]
+=> [#<Scan id: 1, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 17:04:44", updated_at: "2014-03-28 17:04:44">,
+ #<Scan id: 2, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 17:05:59", updated_at: "2014-03-28 17:05:59">]
+[16] pry(main)> i1.scans(1).opportunities
+  Scan Load (0.5ms)  SELECT "scans".* FROM "scans" INNER JOIN "investors_scans" ON "scans"."id" = "investors_scans"."scan_id" WHERE "investors_scans"."investor_id" = $1  [["investor_id", 1]]
+NoMethodError: undefined method `opportunities' for #<ActiveRecord::Associations::CollectionProxy::ActiveRecord_Associations_CollectionProxy_Scan:0x007feef3f608d0>
+from /Users/stephensaunders/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/activerecord-4.0.4/lib/active_record/relation/delegation.rb:121:in `method_missing'
+[17] pry(main)> Opportunity.all
+  Opportunity Load (0.5ms)  SELECT "opportunities".* FROM "opportunities"
+=> [#<Opportunity id: 1, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: nil>,
+ #<Opportunity id: 2, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: nil>,
+ #<Opportunity id: 3, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: nil>,
+ #<Opportunity id: 4, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: 4>,
+ #<Opportunity id: 5, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: 5>,
+ #<Opportunity id: 6, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: 6>,
+ #<Opportunity id: 7, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: 7>,
+ #<Opportunity id: 8, strength: 100, risk: 3.0, expected_reward: 12.0, priority: 2, scan_id: 8>,
+ #<Opportunity id: 9, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: 9>,
+ #<Opportunity id: 10, strength: 100, risk: 2.21, expected_reward: 6.63, priority: 1, scan_id: 10>,
+ #<Opportunity id: 11, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: 11>,
+ #<Opportunity id: 12, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: 12>]
+[18] pry(main)> o1 = Opportunity.find(1)
+  Opportunity Load (0.8ms)  SELECT "opportunities".* FROM "opportunities" WHERE "opportunities"."id" = $1 LIMIT 1  [["id", 1]]
+=> #<Opportunity id: 1, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: nil>
+[19] pry(main)> Opportunity.where(scan_id: 1).first
+  Opportunity Load (0.8ms)  SELECT "opportunities".* FROM "opportunities" WHERE "opportunities"."scan_id" = 1 ORDER BY "opportunities"."id" ASC LIMIT 1
+=> nil
+[20] pry(main)> Scan.all
+  Scan Load (0.5ms)  SELECT "scans".* FROM "scans"
+=> [#<Scan id: 1, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 17:04:44", updated_at: "2014-03-28 17:04:44">,
+ #<Scan id: 2, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 17:05:59", updated_at: "2014-03-28 17:05:59">,
+ #<Scan id: 3, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 17:13:16", updated_at: "2014-03-28 17:13:16">,
+ #<Scan id: 4, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 17:14:43", updated_at: "2014-03-28 17:14:43">,
+ #<Scan id: 5, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 17:16:32", updated_at: "2014-03-28 17:16:32">,
+ #<Scan id: 6, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 17:17:02", updated_at: "2014-03-28 17:17:02">,
+ #<Scan id: 7, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 17:19:02", updated_at: "2014-03-28 17:19:02">,
+ #<Scan id: 8, symbol: "AAPL", security_type: "stock", created_at: "2014-03-28 17:19:02", updated_at: "2014-03-28 17:19:02">,
+ #<Scan id: 9, symbol: "MSFT", security_type: "stock", created_at: "2014-03-28 17:19:02", updated_at: "2014-03-28 17:19:02">,
+ #<Scan id: 10, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 17:19:02", updated_at: "2014-03-28 17:19:02">,
+ #<Scan id: 11, symbol: "T", security_type: "stock", created_at: "2014-03-28 17:19:02", updated_at: "2014-03-28 17:19:02">,
+ #<Scan id: 12, symbol: "F", security_type: "stock", created_at: "2014-03-28 17:19:02", updated_at: "2014-03-28 17:19:02">]
+[21] pry(main)> exit
+stephensaunders ~/Sites/Scato/scato_app on master[!?]
+$ rails db:drop
+Error: Command 'db:drop' not recognized
+rake dbDid you mean: `$ rake db:drop` ?
+
+Usage: rails COMMAND [ARGS]
+
+The most common rails commands are:
+ generate    Generate new code (short-cut alias: "g")
+ console     Start the Rails console (short-cut alias: "c")
+ server      Start the Rails server (short-cut alias: "s")
+ dbconsole   Start a console for the database specified in config/database.yml
+             (short-cut alias: "db")
+ new         Create a new Rails application. "rails new my_app" creates a
+             new application called MyApp in "./my_app"
+
+In addition to those, there are:
+ application  Generate the Rails application code
+ destroy      Undo code generated with "generate" (short-cut alias: "d")
+ plugin new   Generates skeleton for developing a Rails plugin
+ runner       Run a piece of code in the application environment (short-cut alias: "r")
+
+All commands can be run with -h (or --help) for more information.
+stephensaunders ~/Sites/Scato/scato_app on master[!?]
+$ rake db:drop
+stephensaunders ~/Sites/Scato/scato_app on master[!?]
+$ rake db:create
+stephensaunders ~/Sites/Scato/scato_app on master[!?]
+$ rake db:migrate
+== 20140327223504 CreateInvestors: migrating ==================================
+-- create_table(:investors, {:index=>true})
+   -> 0.0067s
+== 20140327223504 CreateInvestors: migrated (0.0068s) =========================
+
+== 20140327223533 CreateTrades: migrating =====================================
+-- create_table(:trades, {:index=>true})
+   -> 0.0211s
+== 20140327223533 CreateTrades: migrated (0.0213s) ============================
+
+== 20140327223604 CreateScans: migrating ======================================
+-- create_table(:scans)
+   -> 0.0055s
+== 20140327223604 CreateScans: migrated (0.0056s) =============================
+
+== 20140327223644 CreateOpportunities: migrating ==============================
+-- create_table(:opportunities, {:index=>true})
+   -> 0.0041s
+== 20140327223644 CreateOpportunities: migrated (0.0042s) =====================
+
+== 20140327223718 CreateInvestorsScans: migrating =============================
+-- create_table(:investors_scans, {:index=>true, :id=>false})
+   -> 0.0011s
+== 20140327223718 CreateInvestorsScans: migrated (0.0012s) ====================
+
+== 20140328144923 AddMaxRiskPercentPerPositionToInvestors: migrating ==========
+-- add_column(:investors, :max_risk_percent_per_position, :integer)
+   -> 0.0010s
+== 20140328144923 AddMaxRiskPercentPerPositionToInvestors: migrated (0.0011s) =
+
+== 20140328153113 ChangeTradesColumnsEntryPriceAndExitPrice: migrating ========
+-- change_column(:trades, :entry_price, :float)
+   -> 0.0247s
+-- change_column(:trades, :exit_price, :float)
+   -> 0.0047s
+== 20140328153113 ChangeTradesColumnsEntryPriceAndExitPrice: migrated (0.0301s) 
+
+== 20140328154638 ChangeOpportunitiesColumnsRiskAndExpectedReward: migrating ==
+-- change_column(:opportunities, :risk, :float)
+   -> 0.0025s
+-- change_column(:opportunities, :expected_reward, :float)
+   -> 0.0060s
+== 20140328154638 ChangeOpportunitiesColumnsRiskAndExpectedReward: migrated (0.0090s) 
+
+== 20140328155044 ChangeInvestorsColumnsBalanceAndMaxPositionPercentAndMaxRiskPercentPerPosition: migrating 
+-- change_column(:investors, :balance, :float)
+   -> 0.0040s
+-- change_column(:investors, :max_position_percent, :float)
+   -> 0.0031s
+-- change_column(:investors, :max_risk_percent_per_position, :float)
+   -> 0.0221s
+== 20140328155044 ChangeInvestorsColumnsBalanceAndMaxPositionPercentAndMaxRiskPercentPerPosition: migrated (0.0302s) 
+
+== 20140328155525 ChangeInvestorRenameAccountNumberToUsername: migrating ======
+-- rename_column(:investors, :account_number, :username)
+   -> 0.0028s
+== 20140328155525 ChangeInvestorRenameAccountNumberToUsername: migrated (0.0029s) 
+
+stephensaunders ~/Sites/Scato/scato_app on master[!?]
+$ rake db:seed
+stephensaunders ~/Sites/Scato/scato_app on master[!?]
+$ rails console
+Loading development environment (Rails 4.0.4)
+ap gem not found.  Try typing 'gem install awesome_print' to get super-fancy output.
+[1] pry(main)> Investor.all
+  Investor Load (1.7ms)  SELECT "investors".* FROM "investors"
+=> [#<Investor id: 1, name: "John Doe", email: "jd@ga.com", username: "jdman", password_digest: "$2a$10$wlWT30Ni2lkdSZvrHEJIeeAYt2laYiNhc9EYOheVJd6v...", balance: 100000.0, max_position_percent: 10.0, max_risk_percent_per_position: 2.0>]
+[2] pry(main)> Scan.all
+  Scan Load (0.7ms)  SELECT "scans".* FROM "scans"
+=> [#<Scan id: 1, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 18:49:32", updated_at: "2014-03-28 18:49:32">,
+ #<Scan id: 2, symbol: "AAPL", security_type: "stock", created_at: "2014-03-28 18:49:32", updated_at: "2014-03-28 18:49:32">,
+ #<Scan id: 3, symbol: "MSFT", security_type: "stock", created_at: "2014-03-28 18:49:32", updated_at: "2014-03-28 18:49:32">,
+ #<Scan id: 4, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 18:49:32", updated_at: "2014-03-28 18:49:32">,
+ #<Scan id: 5, symbol: "T", security_type: "stock", created_at: "2014-03-28 18:49:32", updated_at: "2014-03-28 18:49:32">,
+ #<Scan id: 6, symbol: "F", security_type: "stock", created_at: "2014-03-28 18:49:32", updated_at: "2014-03-28 18:49:32">]
+[3] pry(main)> Opportunity.all
+  Opportunity Load (0.6ms)  SELECT "opportunities".* FROM "opportunities"
+=> [#<Opportunity id: 1, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: 1>,
+ #<Opportunity id: 2, strength: 100, risk: 3.0, expected_reward: 12.0, priority: 2, scan_id: 2>,
+ #<Opportunity id: 3, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: 3>,
+ #<Opportunity id: 4, strength: 100, risk: 2.21, expected_reward: 6.63, priority: 1, scan_id: 4>,
+ #<Opportunity id: 5, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: 5>,
+ #<Opportunity id: 6, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: 6>]
+[4] pry(main)> Trade.all
+  Trade Load (0.8ms)  SELECT "trades".* FROM "trades"
+=> [#<Trade id: 1, primary_symbol: "GOOG", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 465.0, entry_quantity: 100, exit_price: 475.0, exit_quantity: 100, investor_id: 1, opportunity_id: 1>,
+ #<Trade id: 2, primary_symbol: "AAPL", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 105.0, entry_quantity: 100, exit_price: 95.0, exit_quantity: 100, investor_id: 1, opportunity_id: 2>,
+ #<Trade id: 3, primary_symbol: "MSFT", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 465.0, entry_quantity: 100, exit_price: 475.0, exit_quantity: 100, investor_id: 1, opportunity_id: 3>,
+ #<Trade id: 4, primary_symbol: "GOOG", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 50.0, entry_quantity: 100, exit_price: 57.0, exit_quantity: 100, investor_id: 1, opportunity_id: 4>,
+ #<Trade id: 5, primary_symbol: "T", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 465.0, entry_quantity: 100, exit_price: 475.0, exit_quantity: 100, investor_id: 1, opportunity_id: 5>,
+ #<Trade id: 6, primary_symbol: "F", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 465.0, entry_quantity: 100, exit_price: 475.0, exit_quantity: 100, investor_id: 1, opportunity_id: 6>]
+[5] pry(main)> i1 = Investor.find(1)
+  Investor Load (3.9ms)  SELECT "investors".* FROM "investors" WHERE "investors"."id" = $1 LIMIT 1  [["id", 1]]
+=> #<Investor id: 1, name: "John Doe", email: "jd@ga.com", username: "jdman", password_digest: "$2a$10$wlWT30Ni2lkdSZvrHEJIeeAYt2laYiNhc9EYOheVJd6v...", balance: 100000.0, max_position_percent: 10.0, max_risk_percent_per_position: 2.0>
+[6] pry(main)> i1.scans << Opportunity.find(1,2,3)
+  Opportunity Load (12.1ms)  SELECT "opportunities".* FROM "opportunities" WHERE "opportunities"."id" IN (1, 2, 3)
+   (0.1ms)  BEGIN
+   (0.1ms)  ROLLBACK
+ActiveRecord::AssociationTypeMismatch: Scan(#70098747406920) expected, got Opportunity(#70098747564080)
+from /Users/stephensaunders/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/activerecord-4.0.4/lib/active_record/associations/association.rb:224:in `raise_on_type_mismatch!'
+[7] pry(main)> i1.scans << Opportunity.find(1)
+  Opportunity Load (0.7ms)  SELECT "opportunities".* FROM "opportunities" WHERE "opportunities"."id" = $1 LIMIT 1  [["id", 1]]
+   (0.2ms)  BEGIN
+   (0.1ms)  ROLLBACK
+ActiveRecord::AssociationTypeMismatch: Scan(#70098747406920) expected, got Opportunity(#70098747564080)
+from /Users/stephensaunders/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/activerecord-4.0.4/lib/active_record/associations/association.rb:224:in `raise_on_type_mismatch!'
+[8] pry(main)> i1.scans << Scan.find(1,2,3,4)
+  Scan Load (11.4ms)  SELECT "scans".* FROM "scans" WHERE "scans"."id" IN (1, 2, 3, 4)
+   (0.1ms)  BEGIN
+   (0.4ms)  INSERT INTO "investors_scans" ("investor_id", "scan_id") VALUES (1, 1)
+   (0.1ms)  INSERT INTO "investors_scans" ("investor_id", "scan_id") VALUES (1, 2)
+   (0.1ms)  INSERT INTO "investors_scans" ("investor_id", "scan_id") VALUES (1, 3)
+   (0.1ms)  INSERT INTO "investors_scans" ("investor_id", "scan_id") VALUES (1, 4)
+   (0.4ms)  COMMIT
+  Scan Load (0.8ms)  SELECT "scans".* FROM "scans" INNER JOIN "investors_scans" ON "scans"."id" = "investors_scans"."scan_id" WHERE "investors_scans"."investor_id" = $1  [["investor_id", 1]]
+=> [#<Scan id: 1, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 18:49:32", updated_at: "2014-03-28 18:49:32">,
+ #<Scan id: 2, symbol: "AAPL", security_type: "stock", created_at: "2014-03-28 18:49:32", updated_at: "2014-03-28 18:49:32">,
+ #<Scan id: 3, symbol: "MSFT", security_type: "stock", created_at: "2014-03-28 18:49:32", updated_at: "2014-03-28 18:49:32">,
+ #<Scan id: 4, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 18:49:32", updated_at: "2014-03-28 18:49:32">]
+[9] pry(main)> i1.Opportunities << Opportunity.find(1)
+NoMethodError: undefined method `Opportunities' for #<Investor:0x007f8243ea5340>
+from /Users/stephensaunders/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/activemodel-4.0.4/lib/active_model/attribute_methods.rb:439:in `method_missing'
+[10] pry(main)> Opportunity.find(1)
+  Opportunity Load (0.7ms)  SELECT "opportunities".* FROM "opportunities" WHERE "opportunities"."id" = $1 LIMIT 1  [["id", 1]]
+=> #<Opportunity id: 1, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: 1>
+[11] pry(main)> s1.investor
+NameError: undefined local variable or method `s1' for main:Object
+from (pry):11:in `__pry__'
+[12] pry(main)> s1 = Scan.find(1)
+  Scan Load (11.6ms)  SELECT "scans".* FROM "scans" WHERE "scans"."id" = $1 LIMIT 1  [["id", 1]]
+=> #<Scan id: 1, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 18:49:32", updated_at: "2014-03-28 18:49:32">
+[13] pry(main)> s1.investor
+NoMethodError: undefined method `investor' for #<Scan:0x007f824786bf48>
+from /Users/stephensaunders/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/activemodel-4.0.4/lib/active_model/attribute_methods.rb:439:in `method_missing'
+[14] pry(main)> s1.investor.name
+NoMethodError: undefined method `investor' for #<Scan:0x007f824786bf48>
+from /Users/stephensaunders/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/activemodel-4.0.4/lib/active_model/attribute_methods.rb:439:in `method_missing'
+[15] pry(main)> s1.investors
+  Investor Load (10.5ms)  SELECT "investors".* FROM "investors" INNER JOIN "investors_scans" ON "investors"."id" = "investors_scans"."investor_id" WHERE "investors_scans"."scan_id" = $1  [["scan_id", 1]]
+=> [#<Investor id: 1, name: "John Doe", email: "jd@ga.com", username: "jdman", password_digest: "$2a$10$wlWT30Ni2lkdSZvrHEJIeeAYt2laYiNhc9EYOheVJd6v...", balance: 100000.0, max_position_percent: 10.0, max_risk_percent_per_position: 2.0>]
+[16] pry(main)> o1 = Opportunity.find(10
+[16] pry(main)* )  
+  Opportunity Load (0.5ms)  SELECT "opportunities".* FROM "opportunities" WHERE "opportunities"."id" = $1 LIMIT 1  [["id", 10]]
+ActiveRecord::RecordNotFound: Couldn't find Opportunity with id=10
+from /Users/stephensaunders/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/activerecord-4.0.4/lib/active_record/relation/finder_methods.rb:199:in `raise_record_not_found_exception!'
+[17] pry(main)> o1 = Opportunity.find(1)
+  Opportunity Load (0.5ms)  SELECT "opportunities".* FROM "opportunities" WHERE "opportunities"."id" = $1 LIMIT 1  [["id", 1]]
+=> #<Opportunity id: 1, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: 1>
+[18] pry(main)> Opportunity.scan
+NoMethodError: undefined method `scan' for #<Class:0x007f8245e54060>
+from /Users/stephensaunders/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/activerecord-4.0.4/lib/active_record/dynamic_matchers.rb:22:in `method_missing'
+[19] pry(main)> o1.scan
+  Scan Load (0.6ms)  SELECT "scans".* FROM "scans" WHERE "scans"."id" = $1 LIMIT 1  [["id", 1]]
+=> #<Scan id: 1, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 18:49:32", updated_at: "2014-03-28 18:49:32">
+[20] pry(main)> o1.scan.investors
+  Investor Load (0.7ms)  SELECT "investors".* FROM "investors" INNER JOIN "investors_scans" ON "investors"."id" = "investors_scans"."investor_id" WHERE "investors_scans"."scan_id" = $1  [["scan_id", 1]]
+=> [#<Investor id: 1, name: "John Doe", email: "jd@ga.com", username: "jdman", password_digest: "$2a$10$wlWT30Ni2lkdSZvrHEJIeeAYt2laYiNhc9EYOheVJd6v...", balance: 100000.0, max_position_percent: 10.0, max_risk_percent_per_position: 2.0>]
+[21] pry(main)> investors.scans.all
+NameError: undefined local variable or method `investors' for main:Object
+from (pry):22:in `__pry__'
+[22] pry(main)> investors.scans.class
+NameError: undefined local variable or method `investors' for main:Object
+from (pry):23:in `__pry__'
+[23] pry(main)> investor.scans.class
+NameError: undefined local variable or method `investor' for main:Object
+from (pry):24:in `__pry__'
+[24] pry(main)> i1.scans.class
+=> ActiveRecord::Associations::CollectionProxy::ActiveRecord_Associations_CollectionProxy_Scan
+[25] pry(main)> i1.scans.map
+=> #<Enumerator: ...>
+[26] pry(main)> i1.scans.map.each {|scan| scan}
+=> [#<Scan id: 1, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 18:49:32", updated_at: "2014-03-28 18:49:32">,
+ #<Scan id: 2, symbol: "AAPL", security_type: "stock", created_at: "2014-03-28 18:49:32", updated_at: "2014-03-28 18:49:32">,
+ #<Scan id: 3, symbol: "MSFT", security_type: "stock", created_at: "2014-03-28 18:49:32", updated_at: "2014-03-28 18:49:32">,
+ #<Scan id: 4, symbol: "GOOG", security_type: "stock", created_at: "2014-03-28 18:49:32", updated_at: "2014-03-28 18:49:32">]
+[27] pry(main)> i1.scans.map.each {|scan|
+[27] pry(main)*   scan.opportunities.each { |opp| opp}
+[27] pry(main)* }  
+  Opportunity Load (0.6ms)  SELECT "opportunities".* FROM "opportunities" WHERE "opportunities"."scan_id" = $1  [["scan_id", 1]]
+  Opportunity Load (0.2ms)  SELECT "opportunities".* FROM "opportunities" WHERE "opportunities"."scan_id" = $1  [["scan_id", 2]]
+  Opportunity Load (0.5ms)  SELECT "opportunities".* FROM "opportunities" WHERE "opportunities"."scan_id" = $1  [["scan_id", 3]]
+  Opportunity Load (0.2ms)  SELECT "opportunities".* FROM "opportunities" WHERE "opportunities"."scan_id" = $1  [["scan_id", 4]]
+=> [[#<Opportunity id: 1, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: 1>],
+ [#<Opportunity id: 2, strength: 100, risk: 3.0, expected_reward: 12.0, priority: 2, scan_id: 2>],
+ [#<Opportunity id: 3, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: 3>],
+ [#<Opportunity id: 4, strength: 100, risk: 2.21, expected_reward: 6.63, priority: 1, scan_id: 4>]]
+[28] pry(main)> i1.scans.map.each {|scan|
+[28] pry(main)* scan.opportunities.where(:risk < 4)}  
+ArgumentError: comparison of Symbol with 4 failed
+from (pry):32:in `<'
+[29] pry(main)> i1.scans.map.each {|scan|
+[29] pry(main)* scan.opportunities.where('risk < 4')}  
+  Opportunity Load (14.2ms)  SELECT "opportunities".* FROM "opportunities" WHERE "opportunities"."scan_id" = $1 AND (risk < 4)  [["scan_id", 1]]
+  Opportunity Load (0.2ms)  SELECT "opportunities".* FROM "opportunities" WHERE "opportunities"."scan_id" = $1 AND (risk < 4)  [["scan_id", 2]]
+  Opportunity Load (0.2ms)  SELECT "opportunities".* FROM "opportunities" WHERE "opportunities"."scan_id" = $1 AND (risk < 4)  [["scan_id", 3]]
+  Opportunity Load (0.2ms)  SELECT "opportunities".* FROM "opportunities" WHERE "opportunities"."scan_id" = $1 AND (risk < 4)  [["scan_id", 4]]
+=> [[],
+ [#<Opportunity id: 2, strength: 100, risk: 3.0, expected_reward: 12.0, priority: 2, scan_id: 2>],
+ [],
+ [#<Opportunity id: 4, strength: 100, risk: 2.21, expected_reward: 6.63, priority: 1, scan_id: 4>]]
+[30] pry(main)> i1.trades << Trade.find(1,2.3.4.5)
+SyntaxError: unexpected tFLOAT, expecting '('
+i1.trades << Trade.find(1,2.3.4.5)
+                                 ^
+[30] pry(main)> i1.trades << Trade.find(1,2,4,6)
+  Trade Load (0.7ms)  SELECT "trades".* FROM "trades" WHERE "trades"."id" IN (1, 2, 4, 6)
+   (0.1ms)  BEGIN
+   (0.2ms)  COMMIT
+  Trade Load (0.6ms)  SELECT "trades".* FROM "trades" WHERE "trades"."investor_id" = $1  [["investor_id", 1]]
+=> [#<Trade id: 1, primary_symbol: "GOOG", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 465.0, entry_quantity: 100, exit_price: 475.0, exit_quantity: 100, investor_id: 1, opportunity_id: 1>,
+ #<Trade id: 2, primary_symbol: "AAPL", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 105.0, entry_quantity: 100, exit_price: 95.0, exit_quantity: 100, investor_id: 1, opportunity_id: 2>,
+ #<Trade id: 3, primary_symbol: "MSFT", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 465.0, entry_quantity: 100, exit_price: 475.0, exit_quantity: 100, investor_id: 1, opportunity_id: 3>,
+ #<Trade id: 4, primary_symbol: "GOOG", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 50.0, entry_quantity: 100, exit_price: 57.0, exit_quantity: 100, investor_id: 1, opportunity_id: 4>,
+ #<Trade id: 5, primary_symbol: "T", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 465.0, entry_quantity: 100, exit_price: 475.0, exit_quantity: 100, investor_id: 1, opportunity_id: 5>,
+ #<Trade id: 6, primary_symbol: "F", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 465.0, entry_quantity: 100, exit_price: 475.0, exit_quantity: 100, investor_id: 1, opportunity_id: 6>]
+[31] pry(main)> i1.trades
+=> [#<Trade id: 1, primary_symbol: "GOOG", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 465.0, entry_quantity: 100, exit_price: 475.0, exit_quantity: 100, investor_id: 1, opportunity_id: 1>,
+ #<Trade id: 2, primary_symbol: "AAPL", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 105.0, entry_quantity: 100, exit_price: 95.0, exit_quantity: 100, investor_id: 1, opportunity_id: 2>,
+ #<Trade id: 3, primary_symbol: "MSFT", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 465.0, entry_quantity: 100, exit_price: 475.0, exit_quantity: 100, investor_id: 1, opportunity_id: 3>,
+ #<Trade id: 4, primary_symbol: "GOOG", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 50.0, entry_quantity: 100, exit_price: 57.0, exit_quantity: 100, investor_id: 1, opportunity_id: 4>,
+ #<Trade id: 5, primary_symbol: "T", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 465.0, entry_quantity: 100, exit_price: 475.0, exit_quantity: 100, investor_id: 1, opportunity_id: 5>,
+ #<Trade id: 6, primary_symbol: "F", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 465.0, entry_quantity: 100, exit_price: 475.0, exit_quantity: 100, investor_id: 1, opportunity_id: 6>]
+[32] pry(main)> i1.trades.each {|trade| opportunity}
+NameError: undefined local variable or method `opportunity' for main:Object
+from (pry):37:in `block in __pry__'
+[33] pry(main)> i1.trades.each {|trade| trade.opportunity}
+  Opportunity Load (0.5ms)  SELECT "opportunities".* FROM "opportunities" WHERE "opportunities"."id" = $1 LIMIT 1  [["id", 1]]
+  Opportunity Load (0.4ms)  SELECT "opportunities".* FROM "opportunities" WHERE "opportunities"."id" = $1 LIMIT 1  [["id", 2]]
+  Opportunity Load (0.2ms)  SELECT "opportunities".* FROM "opportunities" WHERE "opportunities"."id" = $1 LIMIT 1  [["id", 3]]
+  Opportunity Load (0.2ms)  SELECT "opportunities".* FROM "opportunities" WHERE "opportunities"."id" = $1 LIMIT 1  [["id", 4]]
+  Opportunity Load (0.5ms)  SELECT "opportunities".* FROM "opportunities" WHERE "opportunities"."id" = $1 LIMIT 1  [["id", 5]]
+  Opportunity Load (0.2ms)  SELECT "opportunities".* FROM "opportunities" WHERE "opportunities"."id" = $1 LIMIT 1  [["id", 6]]
+=> [#<Trade id: 1, primary_symbol: "GOOG", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 465.0, entry_quantity: 100, exit_price: 475.0, exit_quantity: 100, investor_id: 1, opportunity_id: 1>,
+ #<Trade id: 2, primary_symbol: "AAPL", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 105.0, entry_quantity: 100, exit_price: 95.0, exit_quantity: 100, investor_id: 1, opportunity_id: 2>,
+ #<Trade id: 3, primary_symbol: "MSFT", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 465.0, entry_quantity: 100, exit_price: 475.0, exit_quantity: 100, investor_id: 1, opportunity_id: 3>,
+ #<Trade id: 4, primary_symbol: "GOOG", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 50.0, entry_quantity: 100, exit_price: 57.0, exit_quantity: 100, investor_id: 1, opportunity_id: 4>,
+ #<Trade id: 5, primary_symbol: "T", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 465.0, entry_quantity: 100, exit_price: 475.0, exit_quantity: 100, investor_id: 1, opportunity_id: 5>,
+ #<Trade id: 6, primary_symbol: "F", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 465.0, entry_quantity: 100, exit_price: 475.0, exit_quantity: 100, investor_id: 1, opportunity_id: 6>]
+[34] pry(main)> i1.trades.each {|trade| Opportunity.find(trade.opportunity_id)}
+  Opportunity Load (6.2ms)  SELECT "opportunities".* FROM "opportunities" WHERE "opportunities"."id" = $1 LIMIT 1  [["id", 1]]
+  Opportunity Load (0.3ms)  SELECT "opportunities".* FROM "opportunities" WHERE "opportunities"."id" = $1 LIMIT 1  [["id", 2]]
+  Opportunity Load (0.2ms)  SELECT "opportunities".* FROM "opportunities" WHERE "opportunities"."id" = $1 LIMIT 1  [["id", 3]]
+  Opportunity Load (0.2ms)  SELECT "opportunities".* FROM "opportunities" WHERE "opportunities"."id" = $1 LIMIT 1  [["id", 4]]
+  Opportunity Load (0.2ms)  SELECT "opportunities".* FROM "opportunities" WHERE "opportunities"."id" = $1 LIMIT 1  [["id", 5]]
+  Opportunity Load (0.2ms)  SELECT "opportunities".* FROM "opportunities" WHERE "opportunities"."id" = $1 LIMIT 1  [["id", 6]]
+=> [#<Trade id: 1, primary_symbol: "GOOG", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 465.0, entry_quantity: 100, exit_price: 475.0, exit_quantity: 100, investor_id: 1, opportunity_id: 1>,
+ #<Trade id: 2, primary_symbol: "AAPL", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 105.0, entry_quantity: 100, exit_price: 95.0, exit_quantity: 100, investor_id: 1, opportunity_id: 2>,
+ #<Trade id: 3, primary_symbol: "MSFT", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 465.0, entry_quantity: 100, exit_price: 475.0, exit_quantity: 100, investor_id: 1, opportunity_id: 3>,
+ #<Trade id: 4, primary_symbol: "GOOG", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 50.0, entry_quantity: 100, exit_price: 57.0, exit_quantity: 100, investor_id: 1, opportunity_id: 4>,
+ #<Trade id: 5, primary_symbol: "T", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 465.0, entry_quantity: 100, exit_price: 475.0, exit_quantity: 100, investor_id: 1, opportunity_id: 5>,
+ #<Trade id: 6, primary_symbol: "F", reference_symbol: nil, entry_order_type: "Buy/Stop Limit", exit_order_type: "Sell/Trailing Stop", entry_date: "2014-03-12", exit_date: "2014-03-20", trade_open: false, entry_price: 465.0, entry_quantity: 100, exit_price: 475.0, exit_quantity: 100, investor_id: 1, opportunity_id: 6>]
+[35] pry(main)> i1.trades.map {|trade| trade.opportunity}
+=> [#<Opportunity id: 1, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: 1>,
+ #<Opportunity id: 2, strength: 100, risk: 3.0, expected_reward: 12.0, priority: 2, scan_id: 2>,
+ #<Opportunity id: 3, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: 3>,
+ #<Opportunity id: 4, strength: 100, risk: 2.21, expected_reward: 6.63, priority: 1, scan_id: 4>,
+ #<Opportunity id: 5, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: 5>,
+ #<Opportunity id: 6, strength: 100, risk: 4.5, expected_reward: 9.0, priority: 1, scan_id: 6>]
+[36] pry(main)> 
