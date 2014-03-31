@@ -1,7 +1,8 @@
 class Trade < ActiveRecord::Base
-	belongs_to :investor
-	belongs_to :opportunity
-	validates :primary_symbol, presence: true
+	belongs_to :user
+	belongs_to :opportunities
+	has_one :ticker, through: :opportunities
+	validates :primary_ticker, presence: true
 	validates :entry_order_type, presence: true
 	validates :entry_price,  numericality: { greater_than: 0}
 	validates :entry_quantity, numericality: { integer_only: true}
@@ -9,8 +10,8 @@ class Trade < ActiveRecord::Base
 	validates :opportunity_id, presence: true, numericality: { integer_only: true}
 						
 	def current_price
-		quote = YahooFinance.get_realtime_quotes(self.primary_symbol)
-		self.current_price = quote[self.primary_symbol].bid
+		# quote = YahooFinance.get_realtime_quotes(self.primary_ticker)
+		# self.current_price = quote[self.primary_ticker].bid
 	end	
 
 	def risk

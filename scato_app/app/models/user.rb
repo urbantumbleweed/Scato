@@ -1,7 +1,6 @@
-class Investor < ActiveRecord::Base
+class User < ActiveRecord::Base
 	has_many :trades
-	has_and_belongs_to_many :scans
-	has_many :opportunities, through: :scans
+	has_and_belongs_to_many :opportunities
 
 	has_secure_password
 	validates :name, :email, :password, :password_confirmation, presence: true
@@ -9,18 +8,29 @@ class Investor < ActiveRecord::Base
 	validates :password, length: {minimum: 5}
 	validates :balance, :max_position_percent, :max_risk_percent_per_position, numericality: { greater_than_or_equal_to: 0 }
 
-	#returns an array symbols for the open trades of an investor
+	#returns an array symbols for the open trades of an user
 	def open_trades
 		return self.trades.where(trade_open: true)
 		
 	end
 
-	#returns an array of the closed trades of an investor
+	#returns an array of the closed trades of an user
 	def closed_trades
-
+		return self.trades.where(trade_open: false)
 	end
 
-	#returns wether the investor is an admin
+	#return an array of the trades that were profitable and closed
+	def profitable_trades
+			return self.trades.where(trade_open: false, profitable: true)
+	end
+
+	#return an array of the trades that lost money
+	def losing_trades
+		return self.trades.where(trades_open: false, profitable: false)
+	end
+
+
+	#returns wether the user is an admin
 	# def is_admin?
 		
 	# end
@@ -33,7 +43,7 @@ class Investor < ActiveRecord::Base
 		return self.balance * (self.max_risk_percent_per_position / 100)
 	end
 
-	#return array of opportunity objects that belong to investor
+	#return array of opportunity objects that belong to user
 	def opportunities
 		scans_ids = self.scans.map {|scan| scan.id}
 		return Opportunity.find(scan_ids)

@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 helper_method :current_user
   def current_user
     if session[:user_id]
-      return Investor.find(session[:user_id])
+      return User.find(session[:user_id])
     else
       return nil
     end

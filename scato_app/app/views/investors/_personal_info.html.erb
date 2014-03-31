@@ -1,0 +1,38 @@
+<%= form_for investor do |f|%>
+<div>
+<%= f.label(:name) %>
+<%= f.text_field(:name) %>
+</div>
+
+<div>
+	<%= f.label(:name) %>
+	<%= f.text_field(:name) %>
+</div>
+
+<div>
+	<%= f.label(:email) %>
+	<%= f.text_field(:email) %>
+</div>
+
+<div>
+	<%= f.label(:password) %>
+	<%= f.password_field(:password) %>
+</div>
+
+<div>
+	<%= f.label(:password_confirmation) %>
+	<%= f.password(:) %>
+</div>
+
+
+<% end %>
+
+<ul>
+	<li>name</li>
+	<li>username</li>
+	<li>email</li>
+	<li>password</li>
+	<li>password_confirmation</li>
+	<li>submit</li>
+
+</ul>

@@ -5,10 +5,10 @@ class SessionsController < ApplicationController
 	end
 
 	def create
-		@investor = Investor.find_by(username: params[:username])
-		if @investor.authenticate(params[:pass])
-			session[:user_id] = @investor.id
-			redirect_to @investor
+		@user = User.find_by(username: params[:username])
+		if @user.authenticate(params[:pass])
+			session[:user_id] = @user.id
+			redirect_to @user
 		else
 			render 'new'
 		end
