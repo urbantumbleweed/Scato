@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140331133958) do
+ActiveRecord::Schema.define(version: 20140401183127) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,31 +23,32 @@ ActiveRecord::Schema.define(version: 20140331133958) do
     t.integer "priority"
     t.integer "ticker_id"
     t.integer "scan_id"
+    t.float   "expected_reward_ratio"
   end
 
-  create_table "opportunities_users", id: false, force: true do |t|
-    t.integer "user_id"
-    t.integer "opportunity_id"
+  create_table "pattern_relevance_scans", force: true do |t|
+    t.integer "pattern_id"
+    t.integer "scan_id"
+    t.integer "pattern_relevance"
   end
 
   create_table "patterns", force: true do |t|
     t.string  "name"
-    t.string  "type"
+    t.string  "pattern_type"
     t.text    "description"
     t.float   "historical_target_reaching_strength"
     t.float   "historical_directional_reliability"
     t.integer "historical_rarity_ranking"
   end
 
-  create_table "patterns_scans", force: true do |t|
-    t.integer "pattern_id"
-    t.integer "scan_id"
-    t.integer "pattern_relevance"
-  end
-
   create_table "patterns_tickers", id: false, force: true do |t|
     t.integer "pattern_id"
     t.integer "ticker_id"
+  end
+
+  create_table "patterns_users", id: false, force: true do |t|
+    t.integer "pattern_id"
+    t.integer "user_id"
   end
 
   create_table "price_histories", force: true do |t|
@@ -130,6 +131,14 @@ ActiveRecord::Schema.define(version: 20140331133958) do
     t.float   "max_risk_percent_per_position"
     t.boolean "admin"
     t.boolean "manager"
+  end
+
+  create_table "usertunities", force: true do |t|
+    t.integer "user_id"
+    t.integer "opportunity_id"
+    t.integer "position_size"
+    t.float   "risk_amount"
+    t.float   "expected_opportunity_return"
   end
 
 end

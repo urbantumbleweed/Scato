@@ -1,0 +1,11 @@
+Scan.all.each {|tick|
+obj = Ticker.find(tick.ticker_id)
+range = obj.dayHigh + 0.02 - obj.dayLow - 0.01
+reward = obj.weeks52High
+priority = PatternRelevanceScan.find(tick.id).pattern_relevance
+exp_rwd = reward / range
+strength = priority / exp_rwd
+
+ Opportunity.create(strength: strength, risk: range, expected_reward: exp_rwd, priority: priority, scan_id: tick.id)
+
+}

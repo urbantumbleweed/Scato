@@ -13,9 +13,7 @@ class UsersController < ApplicationController
 	#page shows User their account. Admin can also see this view.
 	def show
 		@user = User.find(current_user.id)
-		@user.open_trades.each {|trade| trade.current_price}
-		@opportunities@User.opportunities
-		
+		@user.open_trades.each {|trade| trade.ticker.refresh}
 		#get current prices
 
 

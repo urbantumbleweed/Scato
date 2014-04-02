@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
 	has_many :trades
-	has_and_belongs_to_many :opportunities
+	has_many :user_opportunities
+	has_many :opportunities, through: :user_opportunities
+	has_and_belongs_to_many :patterns
 
 	has_secure_password
 	validates :name, :email, :password, :password_confirmation, presence: true
@@ -44,10 +46,21 @@ class User < ActiveRecord::Base
 	end
 
 	#return array of opportunity objects that belong to user
-	def opportunities
-		scans_ids = self.scans.map {|scan| scan.id}
-		return Opportunity.find(scan_ids)
+	# def opportunities
+	# 	scans_ids = self.scans.map {|scan| scan.id}
+	# 	return Opportunity.find(scan_ids)
 		
+	# end
+
+	#returns an integer representing the number of shares appropriate for a given account balance. 
+	def opportunity_position_size(opportunity)
+			opportunity.position_size(self)
 	end
+
+	#returns an array of position sizes for the users opportunities
+	def opportunity_position_sizes
+		self.opportunities.map {|opp| opp.position_size(self)}
+	end
+
 
 end

@@ -1,6 +1,6 @@
 class Scan < ActiveRecord::Base
-	has_and_belongs_to_many :investors
-	has_many :opportunities
+	belongs_to :ticker
+	has_many :patterns, through: :pattern_relevance_scans
 
-	validates :symbol, :security_type, presence: true
+	validates :ticker_id, presence: true
 end

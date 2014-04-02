@@ -53,9 +53,9 @@ gem 'annotate', '~>2.6.2'
 # Signal_tools to provide technical analysis to yahoo finance
 gem 'signal_tools', '~>0.2.2'
 
-group :development do
-	gem 'pry-rails'
-end
+# group :development do
+# 	gem 'pry-rails'
+# end
 
 gem 'rake', '~>10.2.0'
 

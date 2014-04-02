@@ -12,17 +12,46 @@
 # raw_data = File.read('./db/json/nyse2.json')
 # stocks = JSON.parse(raw_data)
 # stocks.each { |stock|
-# 	new_tick = Ticker.new(:ticker => stock["Symbol"],
-# 												:name => stock["Name"],
-# 												:sector => stock["Sector"],
-# 												:industry => stock["Industry"],
-# 												:exchange => stock["Exchange"])
-# 	new_tick.save
+# 	if stock["Symbol"] =~ /^[a-zA-Z]+$/
+# 		new_tick = Ticker.new(:ticker => stock["Symbol"].strip,
+# 													:name => stock["Name"],
+# 													:sector => stock["Sector"],
+# 													:industry => stock["Industry"],
+# 													:exchange => stock["Exchange"])
+# 		new_tick.save
+# 	end
+# }
+# raw_data = File.read('./db/json/nasdaq2.json')
+# stocks = JSON.parse(raw_data)
+# stocks.each { |stock|
+# 	if stock["Symbol"] =~ /^[a-zA-Z]+$/
+# 		new_tick = Ticker.new(:ticker => stock["Symbol"].strip,
+# 													:name => stock["Name"],
+# 													:sector => stock["Sector"],
+# 													:industry => stock["Industry"],
+# 													:exchange => stock["Exchange"])
+# 		new_tick.save
+# 	end
+# }
+# raw_data = File.read('./db/json/amex2.json')
+# stocks = JSON.parse(raw_data)
+# stocks.each { |stock|
+# 	if stock["Symbol"] =~ /^[a-zA-Z]+$/
+# 		new_tick = Ticker.new(:ticker => stock["Symbol"].strip,
+# 													:name => stock["Name"],
+# 													:sector => stock["Sector"],
+# 													:industry => stock["Industry"],
+# 													:exchange => stock["Exchange"])
+# 		new_tick.save
+# end
 # }
 
+raw_data = File.read('./db/json/pricehistories.json')
+pricehistories = JSON.parse(raw_data)
+pricehistories.each do |ps|
+	PriceHistory.create(ps)
 
-
- 
+ end
 
 # i1 = User.create(name: "John Doe",
 # 									email: "jd@ga.com",

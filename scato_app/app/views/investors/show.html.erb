@@ -71,7 +71,6 @@
 			</tr>
 			<tr>
 				<th>Symbol</th>
-				<th>Type</th>
 				<th>Current</th>
 				<th>Entry Price</th>
 				<th>Risk</th>
@@ -83,15 +82,14 @@
 			</tr>
 		</thead>
 		<tbody>
-			<% @investor.opportunities.each do |opportunity| %>
+			<% @opportunities.each do |opportunity| %>
 			<tr>
-				<td><%= opportunity.scan.symbol %></td>
-				<td><%= opportunity.scan.security_type %></td>
-				<td><%= opportunity. %></td>
-				<td><%= opportunity. %></td>
-				<td><%= opportunity. %></td>
-				<td><%= opportunity. %></td>
-				<td><%= opportunity. %></td>
+				<td><%= opportunity.ticker.name %></td>
+				<td><%= opportunity.current_price %></td>
+				<td><%= opportunity.entry_price %></td>
+				<td><%= opportunity.risk %></td>
+				<td><%= opportunity.target_price%></td>
+				<td><%= opportunity.user %></td>
 				<td><%= opportunity. %></td>
 				<td><%= opportunity. %></td>
 				<td><%= opportunity. %></td>

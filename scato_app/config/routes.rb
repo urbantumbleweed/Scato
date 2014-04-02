@@ -4,7 +4,8 @@ ScatoApp::Application.routes.draw do
   get '/login', to: 'sessions#new'
   post '/sessions', to: 'sessions#create'
   get '/logout', to: 'sessions#destroy'
-
+  get '/tickers', to: 'tickers#index'
+  get '/pricehistories', to: 'pricehistories#index'
 
   resources :users do 
     resources :opportunities
