@@ -1,7 +1,7 @@
 class Opportunity < ActiveRecord::Base
 	belongs_to :ticker
 	has_many :trades
-	has_many :user_opportunities
+	has_many :usertunities
 	has_many :users, through: :user_opportunities
 
 	# validates :risk, :expected_reward, :ticker_id, :scan_id, presence: true

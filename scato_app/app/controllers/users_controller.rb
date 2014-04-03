@@ -14,6 +14,7 @@ class UsersController < ApplicationController
 	def show
 		@user = User.find(current_user.id)
 		@user.open_trades.each {|trade| trade.ticker.refresh}
+		@opportunities = @user.usertunities.where("user_id = ? AND position_size > ?", 1, 0)
 		#get current prices
 
 

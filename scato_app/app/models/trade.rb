@@ -10,8 +10,12 @@ class Trade < ActiveRecord::Base
 	# validates :opportunity_id, presence: true, numericality: { integer_only: true}
 						
 	def current_price
-		# quote = YahooFinance.get_realtime_quotes(self.primary_ticker)
-		# self.current_price = quote[self.primary_ticker].bid
+		unless Ticker.find(self.ticker_id).bid == 0.0
+			Ticker.find(self.ticker_id).ask
+		else
+			Ticker.find(self.ticker_id).bid
+		end
+			
 	end	
 
 	def ticker
@@ -28,6 +32,10 @@ class Trade < ActiveRecord::Base
 
 	def expected_return
 		return self.opportunity.expected_reward * self.entry_quantity
+	end
+
+	def opportunity
+		Opportunity.find(self.opportunity_id)
 	end
 						
 						

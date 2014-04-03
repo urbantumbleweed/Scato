@@ -22,18 +22,18 @@
 		</tr>
 	</thead>
 	<tbody>
-		<% @investor.open_trades.each do |trade| %>
+		<% @user.open_trades.each do |trade| %>
 		<tr>
-			<td><%= trade.primary_symbol %></td>
+			<td><%= trade.ticker.name %></td>
 			<td>$<%= trade.current_price %></td>
-			<td>$<%= trade.entry_price - trade.opportunity.risk %></td>
-			<td>$<%= trade.target %></td>
+			<td>$<%= (trade.entry_price - trade.opportunity.risk).round(2) %></td>
+			<td>$<%= trade.target.round(2) %></td>
 			<td><%= trade.entry_quantity %></td>
-			<td>$<%= trade.entry_price %></td>
-			<td>$<%= trade.risk %></td>
-			<td>$<%= trade.current_price - trade.entry_price %></td>
-			<td>$<%= trade.expected_return %></td>
-			<td>link_to("show", investor_trade_path)</td>
+			<td>$<%= trade.entry_price.round(2) %></td>
+			<td>$<%= trade.risk.round(2) %></td>
+			<td>$<%= (trade.current_price - trade.entry_price).round(2) %></td>
+			<td>$<%= trade.expected_return.round(2) %></td>
+			<td>link_to("show", user_trade_path)</td>
 			<td>link_to("exit trade", ???</td>
 		</tr>
 		<% end %>
@@ -89,10 +89,10 @@
 				<td><%= opportunity.entry_price %></td>
 				<td><%= opportunity.risk %></td>
 				<td><%= opportunity.target_price%></td>
-				<td><%= opportunity.user %></td>
-				<td><%= opportunity. %></td>
-				<td><%= opportunity. %></td>
-				<td><%= opportunity. %></td>
+				<td><%= opportunity.position_size%></td>
+				<td><%= opportunity.risk_amount %></td>
+				<td><%= opportunity.expected_opportunity_return %></td>
+				<td><%= opportunity.risk_reward_ratio %></td>
 			</tr>
 			<% end %>
 		</tbody>

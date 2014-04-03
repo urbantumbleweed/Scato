@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140401183127) do
+ActiveRecord::Schema.define(version: 20140402012158) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20140401183127) do
     t.integer "ticker_id"
     t.integer "scan_id"
     t.float   "expected_reward_ratio"
+    t.integer "pattern_id"
   end
 
   create_table "pattern_relevance_scans", force: true do |t|

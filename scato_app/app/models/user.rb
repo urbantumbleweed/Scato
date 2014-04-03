@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
 	has_many :trades
-	has_many :user_opportunities
-	has_many :opportunities, through: :user_opportunities
+	has_many :usertunities
+	has_many :opportunities, through: :usertunities
 	has_and_belongs_to_many :patterns
 
 	has_secure_password

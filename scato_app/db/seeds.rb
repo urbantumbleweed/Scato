@@ -46,12 +46,12 @@
 # end
 # }
 
-raw_data = File.read('./db/json/pricehistories.json')
-pricehistories = JSON.parse(raw_data)
-pricehistories.each do |ps|
-	PriceHistory.create(ps)
+# raw_data = File.read('./db/json/pricehistories.json')
+# pricehistories = JSON.parse(raw_data)
+# pricehistories.each do |ps|
+# 	PriceHistory.create(ps)
 
- end
+#  end
 
 # i1 = User.create(name: "John Doe",
 # 									email: "jd@ga.com",
@@ -81,6 +81,100 @@ pricehistories.each do |ps|
 # 									max_position_percent: 1.0,
 # 									max_risk_percent_per_position: 0.1,
 # 									manager: true)
+
+# p = Pattern.create(name: "Doji",
+# 										pattern_type: "single candle",
+# 										description: "The doji is a single candle pattern that occurs when the open and close are the same or nearly the same.  The range between the high and low should be at least 4.5 times greater than the absolute distance between the open and the close.",
+# 										historical_target_reaching_strength: 70,
+# 										historical_directional_reliability:  85,
+# 										historical_rarity_ranking: 650)
+
+# i1.patterns << p
+
+i1 = User.find(1)
+
+sc = Ticker.where("volume > ? AND bid > ?", 500000, 10)
+pat = Pattern.find_by(name: "Doji")
+sc.each do |tick|
+	open_close = (tick.lastTrade - tick.open).abs
+	high_low = (tick.dayHigh - tick.dayLow)
+
+	if (high_low / open_close > 4.5) && (open_close < 0.03)
+		rsk = open_close + 0.02
+		exp_rwd = tick.dayHigh - tick.bid
+		ratio = exp_rwd / rsk
+
+		scan = Scan.create(ticker_id: tick.id, 
+												entry_confirmation: true)
+		PatternRelevanceScan.create(pattern_id: pat.id, 
+																scan_id: scan.id, 
+																pattern_relevance: 80)
+		opp = Opportunity.create(strength: pat.historical_target_reaching_strength,
+															risk: rsk,
+															expected_reward: exp_rwd,
+															priority: rand(50..85),
+															expected_reward_ratio: ratio,
+															scan_id: scan.id,
+															pattern_id: 1,
+															ticker_id: tick.id)
+		i1.opportunities << opp
+		p_size = opp.position_size(i1)
+		risk_amount = p_size * opp.risk
+		opp_reward = p_size * opp.expected_reward
+		usertune = Usertunity.create(user_id: i1.id, 
+																	opportunity_id: opp.id,
+																	position_size: p_size,
+																	risk_amount: risk_amount,
+																	expected_opportunity_return: opp_reward)
+	end
+
+end
+
+aapl = Ticker.find_by(ticker: "AAPL")
+goog = Ticker.find_by(ticker: "GOOG")
+ford = Ticker.find_by(ticker: "F")
+
+arr = [aapl, goog, ford]
+
+arr.each do |tick|
+	open_close = (tick.lastTrade - tick.open).abs
+	high_low = (tick.dayHigh - tick.dayLow)
+	rsk = open_close + 0.02
+	exp_rwd = tick.dayHigh - tick.bid
+	ratio = exp_rwd / rsk
+
+		scan = Scan.create(ticker_id: tick.id, 
+												entry_confirmation: true)
+		opp = Opportunity.create(risk: rsk,
+															expected_reward: exp_rwd,
+															priority: rand(50..85),
+															expected_reward_ratio: ratio,
+															scan_id: scan.id,
+															ticker_id: tick.id)
+		i1.opportunities << opp
+		p_size = opp.position_size(i1)
+		risk_amount = p_size * opp.risk
+		opp_reward = p_size * opp.expected_reward
+		usertune = Usertunity.create(user_id: i1.id, 
+																	opportunity_id: opp.id,
+																	position_size: p_size,
+																	risk_amount: risk_amount,
+																	expected_opportunity_return: opp_reward)
+
+		t1 = Trade.create(entry_date: '2014-03-17',
+									entry_price: tick.previousClose,
+									entry_quantity: p_size,
+									user_id: i1.id,
+									opportunity_id: opp.id,
+									scan_id: scan.id,
+									ticker_id: tick.id,
+									trade_open: true)
+
+end
+
+
+
+
 
 # s1 = Scan.create(symbol: "GOOG",
 # 							security_type: "stock")
