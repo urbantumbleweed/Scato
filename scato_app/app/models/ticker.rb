@@ -8,12 +8,12 @@ class Ticker < ActiveRecord::Base
 
 	def retrieve_standard_quote
 		#requests the standard quote from Yahoo
-		return YahooFinance.get_standard_quotes(self.ticker)
+		return YahooFinanceWrapper.get_standard_quotes(self.ticker)
 	end
 
 	def retrieve_extended_quote
 		#requests the extended quote from Yahoo
-			return YahooFinance.get_extended_quotes(self.ticker)
+			return YahooFinanceWrapper.get_extended_quotes(self.ticker)
 	end
 
 	def update_standard_fields(std_quote)
@@ -70,11 +70,11 @@ class Ticker < ActiveRecord::Base
 	end
 
 	def self.retrieve_all_standard_quotes(tickers_array)
-		return YahooFinance.get_standard_quotes(tickers_array)
+		return YahooFinanceWrapper.get_standard_quotes(tickers_array)
 	end
 
 	def self.retrieve_all_extended_quotes(tickers_array)
-		return YahooFinance.get_extended_quotes(tickers_array)
+		return YahooFinanceWrapper.get_extended_quotes(tickers_array)
 	end
 
 	def self.get_all_tickers
@@ -100,6 +100,7 @@ class Ticker < ActiveRecord::Base
 		}
 	end
 
+	#Method does not work because the tickers need to 
 	#refreshes each ticker by sending one array
 	def self.refresh_all
 		tickers_array = self.get_all_tickers.compact
