@@ -1,5 +1,5 @@
 class Ticker < ActiveRecord::Base
-	has_many :price_histories, dependent: :destroy
+	has_many :price_histories
 	has_many :scans
 	has_and_belongs_to_many :patterns
 	has_many :opportunities
@@ -7,12 +7,12 @@ class Ticker < ActiveRecord::Base
 	
 
 	def retrieve_standard_quote
-		#requests the standard quote from Yahoo
+		#requests the standard quote from Yahoo through YahooFinanceWrapper
 		return YahooFinanceWrapper.get_standard_quotes(self.ticker)
 	end
 
 	def retrieve_extended_quote
-		#requests the extended quote from Yahoo
+		#requests the extended quote from Yahoo through YahooFinanceWrapper
 			return YahooFinanceWrapper.get_extended_quotes(self.ticker)
 	end
 
@@ -77,12 +77,12 @@ class Ticker < ActiveRecord::Base
 		return YahooFinanceWrapper.get_extended_quotes(tickers_array)
 	end
 
+
 	def self.get_all_tickers
 		self.all.map {|tick|
 			tick.ticker
 		}
 	end
-
 
 	#refrehses all the standard information for each ticker in the array
 	def self.refresh_all_standard_quotes(all_tickers)
@@ -100,7 +100,8 @@ class Ticker < ActiveRecord::Base
 		}
 	end
 
-	#Method does not work because the tickers need to 
+	#Method does not work because the tickers need to be broken up into arrays of 200 or less.
+	#The smaller arrays can be send to request data from Yahoo.
 	#refreshes each ticker by sending one array
 	def self.refresh_all
 		tickers_array = self.get_all_tickers.compact
