@@ -5,7 +5,7 @@ class CreateTrades < ActiveRecord::Migration
     	t.date :entry_date, :exit_date
     	t.float :entry_price, :exit_price
     	t.integer :entry_quantity, :exit_quantity, :reference_ticker_id
-    	t.references :user, :opportunity, :scan, :ticker
+    	t.references :user, :opportunity, :scan, :ticker, :usertunity
     	t.boolean :trade_open, :profitable
     	t.timestamps
     end

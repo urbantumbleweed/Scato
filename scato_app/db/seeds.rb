@@ -100,13 +100,13 @@ sc.each do |tick|
 	high_low = (tick.dayHigh - tick.dayLow)
 
 	if (high_low / open_close > 4.5) && (open_close < 0.03)
-		rsk = open_close + 0.02
+		rsk = high_low + 0.02
 		exp_rwd = tick.dayHigh - tick.bid
 		ratio = exp_rwd / rsk
 
 		scan = Scan.create(ticker_id: tick.id, 
 												entry_confirmation: true)
-		PatternRelevanceScan.create(pattern_id: pat.id, 
+		Relevance.create(pattern_id: pat.id, 
 																scan_id: scan.id, 
 																pattern_relevance: 80)
 		opp = Opportunity.create(strength: pat.historical_target_reaching_strength,

@@ -11,31 +11,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140402012158) do
+ActiveRecord::Schema.define(version: 20140403232645) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "managers_users", force: true do |t|
+    t.integer "user_id"
+    t.integer "manager_id"
+  end
 
   create_table "opportunities", force: true do |t|
     t.float   "strength"
     t.float   "risk"
     t.float   "expected_reward"
+    t.float   "expected_reward_ratio"
+    t.float   "aggregate_actual_opportunity_risk_reward_ratio"
+    t.float   "aggregate_actual_opportunity_return"
+    t.string  "opportunity_type"
     t.integer "priority"
     t.integer "ticker_id"
     t.integer "scan_id"
-    t.float   "expected_reward_ratio"
-    t.integer "pattern_id"
-  end
-
-  create_table "pattern_relevance_scans", force: true do |t|
-    t.integer "pattern_id"
-    t.integer "scan_id"
-    t.integer "pattern_relevance"
   end
 
   create_table "patterns", force: true do |t|
     t.string  "name"
-    t.string  "pattern_type"
+    t.string  "type"
     t.text    "description"
     t.float   "historical_target_reaching_strength"
     t.float   "historical_directional_reliability"
@@ -59,7 +60,21 @@ ActiveRecord::Schema.define(version: 20140402012158) do
     t.float   "high"
     t.float   "low"
     t.float   "close"
+    t.float   "day_range"
+    t.float   "open_close"
+    t.float   "open_low"
+    t.float   "open_high"
+    t.float   "close_low"
+    t.float   "close_high"
+    t.boolean "priceUp"
+    t.boolean "priceDown"
     t.integer "volume"
+  end
+
+  create_table "relevance", force: true do |t|
+    t.integer "pattern_id"
+    t.integer "scan_id"
+    t.integer "pattern_relevance"
   end
 
   create_table "scans", force: true do |t|
@@ -70,6 +85,7 @@ ActiveRecord::Schema.define(version: 20140402012158) do
     t.boolean  "entry_confirmation_two"
     t.boolean  "exit_confirmation"
     t.boolean  "exit_confirmation_two"
+    t.integer  "number_of_patterns"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -116,6 +132,7 @@ ActiveRecord::Schema.define(version: 20140402012158) do
     t.integer  "opportunity_id"
     t.integer  "scan_id"
     t.integer  "ticker_id"
+    t.integer  "usertunity_id"
     t.boolean  "trade_open"
     t.boolean  "profitable"
     t.datetime "created_at"
@@ -123,15 +140,17 @@ ActiveRecord::Schema.define(version: 20140402012158) do
   end
 
   create_table "users", force: true do |t|
-    t.string  "name"
-    t.string  "username"
-    t.string  "email"
-    t.string  "password_digest"
-    t.float   "balance"
-    t.float   "max_position_percent"
-    t.float   "max_risk_percent_per_position"
-    t.boolean "admin"
-    t.boolean "manager"
+    t.string   "name"
+    t.string   "username"
+    t.string   "email"
+    t.string   "password_digest"
+    t.float    "balance"
+    t.float    "max_position_percent"
+    t.float    "max_risk_percent_per_position"
+    t.boolean  "admin"
+    t.boolean  "manager"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "usertunities", force: true do |t|
@@ -139,7 +158,10 @@ ActiveRecord::Schema.define(version: 20140402012158) do
     t.integer "opportunity_id"
     t.integer "position_size"
     t.float   "risk_amount"
-    t.float   "expected_opportunity_return"
+    t.float   "actual_usertunity_return"
+    t.float   "actual_usertunity_risk_reward_ratio"
+    t.float   "expected_usertunity_return"
+    t.boolean "converted_to_trade"
   end
 
 end

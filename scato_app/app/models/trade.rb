@@ -10,12 +10,10 @@ class Trade < ActiveRecord::Base
 	# validates :opportunity_id, presence: true, numericality: { integer_only: true}
 						
 	def current_price
-		unless Ticker.find(self.ticker_id).bid == 0.0
-			Ticker.find(self.ticker_id).ask
-		else
-			Ticker.find(self.ticker_id).bid
-		end
-			
+		 tick = Ticker.find(self.ticker_id)
+		 tick.refresh
+		 tick.ask == 0.0 ? tick.bid : tick.ask
+
 	end	
 
 	def ticker

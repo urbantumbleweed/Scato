@@ -1,10 +1,9 @@
 class Opportunity < ActiveRecord::Base
 	belongs_to :ticker
 	has_many :trades
-	has_many :usertunities
-	has_many :users, through: :user_opportunities
+	has_many :users, through: :usertunities
 
-	# validates :risk, :expected_reward, :ticker_id, :scan_id, presence: true
+	validates :risk, :expected_reward, :ticker_id, :scan_id, presence: true
 
 	def ticker
 		Ticker.find(self.ticker_id)

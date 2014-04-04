@@ -5,6 +5,7 @@ class CreateScans < ActiveRecord::Migration
     	t.boolean :entry_signal, :exit_signal
     	t.boolean :entry_confirmation, :entry_confirmation_two
     	t.boolean :exit_confirmation, :exit_confirmation_two
+    	t.integer :number_of_patterns
     	t.timestamps
     end
   end

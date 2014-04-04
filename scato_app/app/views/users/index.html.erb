@@ -1,14 +1,14 @@
 <h1>This lists all the investors.</h1>
 <p>This view is reserved for admin and account managers</p>
 
-<% @investors.each do |investor| %>
+<% @users.each do |user| %>
 	<div>
-	 Name: <%= investor.name %> | 
-	 Balance: <%= investor.balance %> |
-	 Open Trades: <%= investor.trades.where(trade_open: true) %> |
-	 link_to view investor |
-	 link_to edit investor |
-	 link_to remove investor
+	 Name: <%= user.name %> | 
+	 Balance: <%= user.balance %> |
+	 Open Trades: <%= user.trades.where(trade_open: true) %> |
+	 link_to view user |
+	 link_to edit user |
+	 link_to remove user
 	</div>
 
 <% end %>

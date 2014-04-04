@@ -59,4 +59,7 @@ gem 'signal_tools', '~>0.2.2'
 
 gem 'rake', '~>10.2.0'
 
-
+#rspec testing
+group :test, :development do
+  gem "rspec-rails", "~> 2.4"
+end

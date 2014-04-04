@@ -3,7 +3,7 @@ class Ticker < ActiveRecord::Base
 	has_many :scans
 	has_and_belongs_to_many :patterns
 	has_many :opportunities
-	has_many :trades, through: :opportunities
+	has_many :usertunities, through: :opportunities
 	
 
 	def retrieve_standard_quote
@@ -62,7 +62,11 @@ class Ticker < ActiveRecord::Base
 	def refresh
 		std_quote_complete = self.refresh_standard_quote
 		ext_quote_complete = self.refresh_extended_quote
-		return std_quote_complete && ext_quote_complete
+		if std_quote_complete && ext_quote_complete
+		 return self
+		else
+			return nil
+		end
 	end
 
 	def self.retrieve_all_standard_quotes(tickers_array)
