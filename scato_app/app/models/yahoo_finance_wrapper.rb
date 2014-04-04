@@ -15,6 +15,13 @@ class YahooFinanceWrapper
 		YahooFinance.get_extended_quotes(ticker_symbol)
 	end
 
+	#retrieves historical data on a given ticker
+	def self.get_historical_quotes_days(ticker, days, &block)
+		YahooFinance.get_HistoricalQuotes_days(ticker, days, &block)
+	end
 
+	def self.get_historical_quotes_by_dates(ticker, startDate, endDate)
+		YahooFinance.get_HistoricalQuotes(ticker, startDate, endDate)
+	end
 
 end
