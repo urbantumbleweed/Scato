@@ -5,7 +5,8 @@ describe Ticker do
 
 	describe do
 		before do
-			# @ticker1 = Ticker.new(name: 'SDSS',
+			# @ticker1 = Ticker.new(ticker: 'SDSS',
+			#						name: "Stephen Inc."
 			# 					date: '2014-04-03',
 			# 					ask: 100.00,
 			# 					bid: 99.99,
@@ -27,7 +28,8 @@ describe Ticker do
 			# 					weeks52ChangePercentFromHigh: 16.66,
 			# 					weeks52ChangePercentFromLow: 33.33)
 
-			@doji = Ticker.new(name: 'DOJI',
+			@doji = Ticker.new(ticker: 'DOJI',
+								name: 'this is a doji'
 								date: '2014-04-03',
 								ask: 100.00,
 								bid: 99.99,
@@ -49,7 +51,7 @@ describe Ticker do
 								weeks52ChangePercentFromHigh: 16.66,
 								weeks52ChangePercentFromLow: 33.33)
 
-			@not_doji = Ticker.new(name: 'NOJI',
+			@not_doji = Ticker.new(ticker: 'NOJI',
 								date: '2014-04-03',
 								ask: 100.00,
 								bid: 99.99,
