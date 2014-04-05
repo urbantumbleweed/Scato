@@ -63,5 +63,8 @@ gem 'rake', '~>10.2.0'
 group :test, :development do
 	gem "factory_girl_rails", "~>4.0"
 	gem "capybara"
+	gem "rb-fsevent"	
   gem "rspec-rails", "~> 2.14.1"
+  gem "guard-rspec", "~>4.2.8"
+  gem "guard-test"
 end

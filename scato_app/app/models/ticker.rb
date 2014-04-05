@@ -5,22 +5,19 @@ class Ticker < ActiveRecord::Base
 	has_many :opportunities
 	has_many :usertunities, through: :opportunities
 
-
-	
-
+	#requests the standard quote from Yahoo through YahooFinanceWrapper
 	def retrieve_standard_quote
-		#requests the standard quote from Yahoo through YahooFinanceWrapper
 		return YahooFinanceWrapper.get_standard_quotes(self.ticker)
 	end
-
+	
+	#requests the extended quote from Yahoo through YahooFinanceWrapper
 	def retrieve_extended_quote
-		#requests the extended quote from Yahoo through YahooFinanceWrapper
 			return YahooFinanceWrapper.get_extended_quotes(self.ticker)
 	end
 
+	#sets the values that use the standard quote
 	def update_standard_fields(std_quote)
-		#sets the values that use the standard quote
-		self.update(#name: std_quote[self.ticker].name,
+		self.update(name: std_quote[self.ticker].name,
 								date: std_quote[self.ticker].date,
 								ask: std_quote[self.ticker].ask,
 								bid: std_quote[self.ticker].bid,
@@ -34,8 +31,8 @@ class Ticker < ActiveRecord::Base
 								changePercent: std_quote[self.ticker].changePercent)
 	end
 
+	#sets the values that use the extended quote
 	def update_extended_fields(ext_quote)
-		#sets the values that use the extended quote
 		self.update(#exchange: ext_quote[self.ticker].stockExchange,
 								peRatio: ext_quote[self.ticker].peRatio,
 								pegRatio: ext_quote[self.ticker].pegRatio,
@@ -50,14 +47,18 @@ class Ticker < ActiveRecord::Base
 	def refresh_standard_quote
 		quote = self.retrieve_standard_quote
 		if self.update_standard_fields(quote)
-			return true
+			return self
+		else 
+			return nil
 		end
 	end
 
 	def refresh_extended_quote
 		quote = self.retrieve_extended_quote
 		if self.update_extended_fields(quote)
-			return true
+			return self
+		else
+			return nil
 		end
 	end
 
