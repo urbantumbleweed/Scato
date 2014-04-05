@@ -4,6 +4,8 @@ class Ticker < ActiveRecord::Base
 	has_and_belongs_to_many :patterns
 	has_many :opportunities
 	has_many :usertunities, through: :opportunities
+
+
 	
 
 	def retrieve_standard_quote
@@ -108,4 +110,40 @@ class Ticker < ActiveRecord::Base
 		self.refresh_all_standard_quotes(tickers_array)
 		self.refresh_all_extended_quotes(tickers_array)
 	end
+
+	#takes the current price details and stores them in the tickers PriceHistory.
+	#returns price history object.
+	def save_price_history
+		day = PriceHistory.new(ticker_id: self.id
+											date: self.date, 
+											open: self.open,
+											high: self.dayHigh,
+											low: self.dayLow,
+											close: self.lastTrade,
+											day_range: (self.dayHigh - self.dayLow).abs,
+											open_close: (self.close - self.open).abs,
+											open_low: self.open - self.dayLow,
+											open_high: self.dayHigh - self.open,
+											close_low: self.lastTrade - self.dayLow,
+											close_high: self.dayHigh - self.lastTrade,
+											volume: self.volume)
+			day[:priceUp] = false unless day.open > day.close
+			day[:priceDown] = false unless day.close > day.open
+			day.save
+	    return day
+	end
+
+	def get_day_stats
+		PriceHistory.get_activity(self)
+	end
+
+
+	def doji
+		day = self.get_day_stats
+		
+		return true
+
+		
+	end
+
 end
